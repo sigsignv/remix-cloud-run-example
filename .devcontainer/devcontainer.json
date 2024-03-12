@@ -1,0 +1,21 @@
+{
+	"name": "Node.js",
+
+	// Using custom docker image
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+
+	// Using normal user, Instead of root
+	"remoteUser": "node",
+
+	// Custom Extensions and settings
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"EditorConfig.EditorConfig",
+                "ms-azuretools.vscode-docker"
+			]
+		}
+	}
+}
