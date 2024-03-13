@@ -25,7 +25,6 @@ FROM base
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/build /app/build
-COPY --from=build /app/public /app/public
 COPY --from=deps /app/node_modules /app/node_modules
 COPY package.json package-lock.json /app/
 
