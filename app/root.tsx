@@ -52,17 +52,27 @@ export function ErrorBoundary() {
     return (
       <Document>
         <div style={{textAlign: "center"}} >
-          <h1>{error.status} {error.statusText}</h1>
+          <h1>
+            {error.status} {error.statusText}
+          </h1>
           <p>{error.data}</p>
         </div>
       </Document>
-    )
+    );
+  } else if (error instanceof Error) {
+    return (
+      <Document>
+        <div>
+          <h1>Error</h1>
+          <p>{error.message}</p>
+        </div>
+      </Document>
+    );
+  } else {
+    return (
+      <Document>
+        <h1>Unknown Error</h1>
+      </Document>
+    );
   }
-
-  console.log(error)
-  return (
-    <Document>
-      <h1>App Error</h1>
-    </Document>
-  )
 }
