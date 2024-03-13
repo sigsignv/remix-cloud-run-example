@@ -7,13 +7,18 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
+  useRouteError,
 } from "@remix-run/react";
+import { PropsWithChildren } from "react";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
-export default function App() {
+function Document({
+  children
+}: PropsWithChildren) {
   return (
     <html lang="en">
       <head>
@@ -23,11 +28,51 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        {children}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
     </html>
   );
+}
+
+export default function App() {
+  return (
+    <Document>
+      <Outlet />
+    </Document>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <Document>
+        <div style={{textAlign: "center"}} >
+          <h1>
+            {error.status} {error.statusText}
+          </h1>
+          <p>{error.data}</p>
+        </div>
+      </Document>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <Document>
+        <div>
+          <h1>Error</h1>
+          <p>{error.message}</p>
+        </div>
+      </Document>
+    );
+  } else {
+    return (
+      <Document>
+        <h1>Unknown Error</h1>
+      </Document>
+    );
+  }
 }
